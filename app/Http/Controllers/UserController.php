@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Hash;
+use JWTAuth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class UserController extends Controller
 {
