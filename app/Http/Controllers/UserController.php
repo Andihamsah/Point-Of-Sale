@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Store;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +18,8 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:users',
             'email' => 'required|email|unique:users',
-            'password' => 'required',                
+            'password' => 'required',
+            'store' => 'required'                
         ]);
 
         if($validator->fails())
@@ -27,12 +29,17 @@ class UserController extends Controller
                 'errors' => $validator->errors()->toJson(),'status' => 400
             ]);
         }
-
+            $store = Store::create([
+                'name' => $request->store
+            ]);
+            $id_store = Store::orderBy('created_at', 'desc')->first();
+                // dd($id_store->id);
             $user = User::create([
+                'id_store' => $id_store->id,
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
-                
+                'role' => $request->role
             ]);
         
         $token = auth()->login($user);
