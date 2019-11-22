@@ -41,6 +41,7 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
             \Barryvdh\Cors\HandleCors::class,
+            // 'cekrole' => \App\Http\Middleware\CekRole::class,
         ],
     ];
 
@@ -64,6 +65,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'cors' => \App\Http\Middleware\Cors::class, // <-- add this line
+        'cekrole' => \App\Http\Middleware\CekRole::class,
     ];
 
     /**
