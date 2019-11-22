@@ -85,6 +85,10 @@ class UserController extends Controller
         return $this->respondWithTokenOnRegister($token,$user->id);
     }
 
+    public function showLoginKasir() 
+    {
+
+    }
 
     public function login(Request $request)
     {
@@ -108,7 +112,7 @@ class UserController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }          
         // $user = User::whereNotIn('name',[$request->name])->get();
-        $login = User::where('username',$request->name)->get();
+        $login = User::where('username',$request->username)->get();
         $login = $login->first();
         return $this->respondWithToken($token,$login);
     }    
@@ -138,7 +142,7 @@ class UserController extends Controller
         $login = User::where('username',$request->name)->get();
         $login = $login->first();
         return $this->respondWithToken($token,$login);
-    }    
+    }
     
     protected function respondWithToken($token,$login)
     {
