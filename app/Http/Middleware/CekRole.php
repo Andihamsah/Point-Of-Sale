@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\User;
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class CekRole
 {
@@ -16,7 +17,7 @@ class CekRole
      */
     public function handle($request, Closure $next, $role)
     {
-        $user = User::admin();
+        $user = Auth::user();
         // dd($user);
         if($user && $user->role != $role){
             return redirect('/');
