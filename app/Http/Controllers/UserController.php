@@ -16,7 +16,8 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:users',
+            'username' => 'required|string|unique:users',   
+            'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
             'store' => 'required'                
@@ -36,6 +37,7 @@ class UserController extends Controller
                 // dd($id_store->id);
             $user = User::create([
                 'id_store' => $id_store->id,
+                'username' => $request->username,
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
@@ -43,11 +45,44 @@ class UserController extends Controller
             ]);
         
         $token = auth()->login($user);
-        $get = User::where('name',$request->name);
+        $get = User::where('username',$request->name);
         $user = $get->first();
         return $this->respondWithTokenOnRegister($token,$user->id);
+    }
 
+    public function registerKasir(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id_store' => 'required',  
+            'username' => 'required|string|unique:users',        
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+        ]);
 
+        if($validator->fails())
+        {
+            return response()->json([
+
+                'errors' => $validator->errors()->toJson(),'status' => 400
+            ]);
+        }
+            // $store = Store::find($request->id_store);
+            // $id_store = Store::orderBy('created_at', 'desc')->first();
+                // dd($id_store->id);
+            $user = User::create([
+                'id_store' => $request->id_store,
+                'username' => $request->username,
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'role' => '2'
+            ]);
+        
+        $token = auth()->login($user);
+        $get = User::where('username',$request->name);
+        $user = $get->first();
+        return $this->respondWithTokenOnRegister($token,$user->id);
     }
 
 
@@ -56,8 +91,8 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(),
         [
-            'name' => 'required|string|max:255',
-            'password' => 'required|unique:users',                
+            'username' => 'required|string|max:255',
+            'password' => 'required',                
         ]);
 
         
@@ -66,19 +101,45 @@ class UserController extends Controller
             return response()->json($validator->errors()->toJson(),400);
         }
 
-        $credentials = $request->only(['name', 'password']);
+        $credentials = $request->only(['username', 'password']);
 
         if (!$token = auth()->attempt($credentials)) 
         {
             return response()->json(['error' => 'Unauthorized'], 401);
         }          
         // $user = User::whereNotIn('name',[$request->name])->get();
-        $login = User::where('name',$request->name)->get();
+        $login = User::where('username',$request->name)->get();
         $login = $login->first();
         return $this->respondWithToken($token,$login);
     }    
 
+    public function loginKasir(Request $request)
+    {
 
+        $validator = Validator::make($request->all(),
+        [
+            'username' => 'required|string|max:255',
+            'password' => 'required',                
+        ]);
+
+        
+        if ($validator->fails()) 
+        {
+            return response()->json($validator->errors()->toJson(),400);
+        }
+
+        $credentials = $request->only(['username', 'password']);
+
+        if (!$token = auth()->attempt($credentials)) 
+        {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }          
+        // $user = User::whereNotIn('name',[$request->name])->get();
+        $login = User::where('username',$request->name)->get();
+        $login = $login->first();
+        return $this->respondWithToken($token,$login);
+    }    
+    
     protected function respondWithToken($token,$login)
     {
         return response()->json([
@@ -144,7 +205,7 @@ class UserController extends Controller
     
     public function index()
     {
-        return response()->json(User::whereNotIn('role',['1'])->get());
+        return response()->json(User::whereNotIn('role',['0','1'])->get());
     }
     
     public function deletekasir($id)

@@ -14,12 +14,15 @@ class UsersTableSeeder extends Seeder
         App\User::create(
         [
             'id_store' => '0',
+            'username' => 'admin',
             'name' => "admin",
             'email' => "admin@gmail.com",
             'password' => bcrypt("admin"),
             'role' => '0'
         ],
         // [
+
+        //     'username' => 'admin',
         //     'name' => "owner",
         //     'email' => "owner@gmail.com",
         //     'password' => bcrypt("owner"),
