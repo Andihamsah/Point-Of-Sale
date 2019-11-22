@@ -21,8 +21,7 @@ class UsersTableSeeder extends Seeder
             'role' => '0'
         ],
         // [
-
-        //     'username' => 'admin',
+        //     'username' => 'owner',
         //     'name' => "owner",
         //     'email' => "owner@gmail.com",
         //     'password' => bcrypt("owner"),
