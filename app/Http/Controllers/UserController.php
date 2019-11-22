@@ -107,7 +107,7 @@ class UserController extends Controller
 
         $credentials = $request->only(['username', 'password']);
 
-        if (!$token = auth()->attempt($credentials)) 
+        if (!$token = auth()->attempt($credentials))
         {
             return response()->json(['error' => 'Unauthorized'], 401);
         }          
@@ -139,7 +139,7 @@ class UserController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }          
         // $user = User::whereNotIn('name',[$request->name])->get();
-        $login = User::where('username',$request->name)->get();
+        $login = User::where('username',$request->username)->get();
         $login = $login->first();
         return $this->respondWithToken($token,$login);
     }
