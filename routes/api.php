@@ -22,11 +22,11 @@ Route::get('user', 'UserController@getAuthenticatedUser')->middleware('jwt.verif
 Route::post('register', 'UserController@register');
 Route::post('login', 'UserController@login');
 
-// Route::group(['middleware' => ['web', 'cekrole:1' ]], function(){
+Route::group(['middleware' => ['cekrole:1']], function(){
     Route::post('register/kasir', 'UserController@registerKasir')->name('register.kasir');
     Route::post('login/kasir', 'UserController@loginKasir')->name('login.kasir');
     Route::put('update', 'UserController@update');
     Route::put('privasi', 'UserController@updateprivasi');
     Route::get('showkasir', 'UserController@index');
     Route::delete('deletekasir/{id}', 'UserController@deletekasir');
-// });
+});
