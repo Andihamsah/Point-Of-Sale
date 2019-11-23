@@ -28,7 +28,7 @@ class UserController extends Controller
             return response()->json([
 
                 'errors' => $validator->errors()->toJson(),'status' => 400
-            ]);
+            ], 400);
         }
             $store = Store::create([
                 'name' => $request->store
@@ -65,7 +65,7 @@ class UserController extends Controller
             return response()->json([
 
                 'errors' => $validator->errors()->toJson(),'status' => 400
-            ]);
+            ], 400);
         }
             // $store = Store::find($request->id_store);
             // $id_store = Store::orderBy('created_at', 'desc')->first();
