@@ -28,7 +28,7 @@ class UserController extends Controller
             return response()->json([
 
                 'errors' => $validator->errors()->toJson(),'status' => 400
-            ]);
+            ], 400);
         }
             $store = Store::create([
                 'name' => $request->store
@@ -45,9 +45,8 @@ class UserController extends Controller
             ]);
         
         $token = auth()->login($user);
-        $get = User::where('username',$request->name);
-        $user = $get->first();
-        return $this->respondWithTokenOnRegister($token,$user->id);
+        $username = User::orderBy('created_at', 'desc')->first();
+        return $this->respondWithTokenOnRegister($token,$username->id);
     }
 
     public function registerKasir(Request $request)
@@ -65,7 +64,7 @@ class UserController extends Controller
             return response()->json([
 
                 'errors' => $validator->errors()->toJson(),'status' => 400
-            ]);
+            ], 400);
         }
             // $store = Store::find($request->id_store);
             // $id_store = Store::orderBy('created_at', 'desc')->first();
@@ -80,9 +79,8 @@ class UserController extends Controller
             ]);
         
         $token = auth()->login($user);
-        $get = User::where('username',$request->name);
-        $user = $get->first();
-        return $this->respondWithTokenOnRegister($token,$user->id);
+        $username = User::orderBy('created_at', 'desc')->first();
+        return $this->respondWithTokenOnRegister($token,$username->id);
     }
 
     public function showLoginKasir() 
@@ -155,13 +153,13 @@ class UserController extends Controller
         ]);
     }
 
-    protected function respondWithTokenOnRegister($token,$user)
+    protected function respondWithTokenOnRegister($token,$user_id)
     {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60,
-            'user' => $user
+            'user_id' => $user_id
         ]);
     }
 
