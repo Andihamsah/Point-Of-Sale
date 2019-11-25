@@ -30,3 +30,6 @@ Route::group(['middleware' => ['cekrole:1']], function(){
     Route::get('showkasir', 'UserController@index');
     Route::delete('deletekasir/{id}', 'UserController@deletekasir');
 });
+
+// item
+Route::post('barang', 'ItemController@store');
