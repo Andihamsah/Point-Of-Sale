@@ -22,14 +22,15 @@ Route::get('user', 'UserController@getAuthenticatedUser')->middleware('jwt.verif
 Route::post('register', 'UserController@register');
 Route::post('login', 'UserController@login');
 
-Route::group(['middleware' => ['cekrole:1']], function(){
-    Route::post('register/kasir', 'UserController@registerKasir')->name('register.kasir');
-    Route::post('login/kasir', 'UserController@loginKasir')->name('login.kasir');
+Route::group(['prefix' => 'kasir','middleware' => ['cekrole:1']], function(){
+    Route::post('register', 'UserController@registerKasir');
+    Route::post('login', 'UserController@loginKasir');
     Route::put('update', 'UserController@update');
     Route::put('privasi', 'UserController@updateprivasi');
-    Route::get('showkasir', 'UserController@index');
-    Route::delete('deletekasir/{id}', 'UserController@deletekasir');
+    Route::get('show', 'UserController@index');
+    Route::delete('delete/{id}', 'UserController@deletekasir');
 });
 
 // item
 Route::post('barang', 'ItemController@store');
+Route::put('beli/{id}', 'ItemController@beli');
