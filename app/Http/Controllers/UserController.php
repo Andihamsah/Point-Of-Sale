@@ -207,7 +207,12 @@ class UserController extends Controller
     
     public function index()
     {
-        return response()->json(User::whereNotIn('role',['0','1'])->get());
+        $kasir = User::whereNotIn('role',['0','1'])->get();        
+        if (count($kasir) == null) {
+            return response()->json(['msg' => "users not avaible"]);
+        }else {
+            return response()->json($kasir);            
+        }
     }
     
     public function deletekasir($id)
