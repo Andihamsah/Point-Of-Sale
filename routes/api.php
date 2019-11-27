@@ -27,7 +27,7 @@ Route::group(['prefix' => 'kasir','middleware' => ['cekrole:1']], function(){
     Route::post('login', 'UserController@loginKasir');
     Route::put('update', 'UserController@update');
     Route::put('privasi', 'UserController@updateprivasi');
-    Route::get('show', 'UserController@index');
+    Route::get('show/{store}', 'UserController@index');
     Route::delete('delete/{id}', 'UserController@deletekasir');
 });
 
