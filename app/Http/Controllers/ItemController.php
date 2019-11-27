@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Item;
+use App\Category;
 
 class ItemController extends Controller
 {
@@ -34,5 +35,17 @@ class ItemController extends Controller
         }
         return response()->json(['massage' => "failed"]);
         
+    }
+
+    public function kategori(Request $request)
+    {
+        $kategori = Category::create([
+            'name' => $request->kategori,
+        ]);
+
+        if ($kategori->save()) {
+            return response()->json(['msg'=>"succes"]);
+        }
+        return response()->json(['msg'=>"failed"]);
     }
 }

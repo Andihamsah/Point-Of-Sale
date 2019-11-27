@@ -213,7 +213,7 @@ class UserController extends Controller
             return response()->json(['massage' => "failed"]);                        
         }else {
             $user->username = $request->username;
-            $user->password = $request->password;
+            $user->password = bcrypt($request->password);
             
             if ($user->save()) {
                 return response()->json(['massage' => "succes"]);
@@ -224,7 +224,8 @@ class UserController extends Controller
     
     public function index($store_id)
     {
-        $kasir = User::where('role',['1'] && 'id_store',[$store_id])->get();        
+        $kasir = User::where('id_store',[$store_id])
+                        ->whereNotIn('role',['1', '0'])->get();        
         if (count($kasir) == null) {
             return response()->json(['msg' => "users not avaible"]);
         }else {
