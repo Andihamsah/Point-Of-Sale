@@ -197,17 +197,35 @@ class UserController extends Controller
     public function updateprivasi(Request $request)
     {
         $user = User::find($request->id);
-        $user->password =bcrypt($request->password);
-
-        if ($user->save()) {
-            return response()->json(['massage' => "succes"]);
+        if (isset($request->password) && is_null($request->username)) {
+            $user->password =bcrypt($request->password);
+    
+            if ($user->save()) {
+                return response()->json(['massage' => "succes"]);
+            }
+            return response()->json(['massage' => "failed"]);            
+        }elseif (isset($request->username) && is_null($request->password)) {
+            $user->username = $request->username;
+            
+            if ($user->save()) {
+                return response()->json(['massage' => "succes"]);
+            }
+            return response()->json(['massage' => "failed"]);                        
+        }else {
+            $user->username = $request->username;
+            $user->password = bcrypt($request->password);
+            
+            if ($user->save()) {
+                return response()->json(['massage' => "succes"]);
+            }
+            return response()->json(['massage' => "failed"]);                        
         }
-        return response()->json(['massage' => "failed"]);
     }
     
-    public function index()
+    public function index($store_id)
     {
-        $kasir = User::whereNotIn('role',['0','1'])->get();        
+        $kasir = User::where('id_store',[$store_id])
+                        ->whereNotIn('role',['1', '0'])->get();        
         if (count($kasir) == null) {
             return response()->json(['msg' => "users not avaible"]);
         }else {

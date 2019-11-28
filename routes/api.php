@@ -27,10 +27,26 @@ Route::group(['prefix' => 'kasir','middleware' => ['cekrole:1']], function(){
     Route::post('login', 'UserController@loginKasir');
     Route::put('update', 'UserController@update');
     Route::put('privasi', 'UserController@updateprivasi');
-    Route::get('show', 'UserController@index');
+    Route::get('show/{store}', 'UserController@index');
     Route::delete('delete/{id}', 'UserController@deletekasir');
 });
 
+//Store
+Route::post('store/tambah', 'StoreController@store');
+Route::put('store/update/id', 'StoreController@update');
+Route::get('store/show/id', 'StoreController@show');
+Route::get('store/show', 'StoreController@index');
+Route::delete('store/delete', 'StoreController@destroy');
+
 // item
-Route::post('barang', 'ItemController@store');
+Route::post('barang', 'ItemController@produk');
+Route::put('barang/update/{id}', 'ItemController@updateproduk');
 Route::put('beli/{id}', 'ItemController@beli');
+Route::get('tampil/{store}', 'ItemController@show');
+Route::delete('barang/delete/{id}', 'ItemController@destroy');
+
+// Kategori
+Route::post('kategori', 'kategoriController@store');
+Route::put('kategori/update/{id}', 'kategoriController@update');
+Route::get('kategori/show', 'KategoriController@index');
+Route::delete('kategori/delete/{id}', 'KategoriController@destroy');
