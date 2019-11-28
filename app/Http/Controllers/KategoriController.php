@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Store;
 
-class StoreController extends Controller
+class KategoriController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +13,7 @@ class StoreController extends Controller
      */
     public function index()
     {
-        return response()->json([Store::all()]);
+        return response()->json([Category::all()]);
     }
 
     /**
@@ -35,14 +34,14 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        $store = new Store;
-        $store->name = $request->nama;
-        $store->status = $request->status;
-        
-        if ($store->save()) {
-            return response()->json(['msg' => "succes"]);
+        $kategori = Category::create([
+            'name' => $request->kategori,
+        ]);
+
+        if ($kategori->save()) {
+            return response()->json(['msg'=>"succes"]);
         }
-        return response()->json(['msg' => "failed"]);
+        return response()->json(['msg'=>"failed"]);
     }
 
     /**
@@ -53,7 +52,7 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        return response()->json([Store::find($id)->get()]);
+        //
     }
 
     /**
@@ -76,11 +75,9 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $store = Store::find($id);
-        $store->name = $request->name;
-        $store->status = $request->status;
-
-        if ($store->delete()) {
+        $kategori = Category::find($id);
+        $kategori->name = $request->kategori;
+        if ($kategori->update()) {
             return response()->json(['msg' => "succes"]);
         }
         return response()->json(['msg' => "failed"]);
@@ -94,9 +91,8 @@ class StoreController extends Controller
      */
     public function destroy($id)
     {
-        $store = Store::find($id);
-        
-        if ($store->delete()) {
+        $kategori = Category::find($id);
+        if ($kategori->delete()) {
             return response()->json(['msg' => "succes"]);
         }
         return response()->json(['msg' => "failed"]);
