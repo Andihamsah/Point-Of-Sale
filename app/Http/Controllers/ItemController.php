@@ -11,6 +11,7 @@ class ItemController extends Controller
     public function produk(Request $request) //produk yg sudah ada
     {
         $item = new Item;
+        $item->item_code = $request->kode_barang;
         $item->name_item = $request->nama_barang;
         $item->image = base64_encode($request->image);
         $item->stock = $request->stock;
@@ -44,7 +45,8 @@ class ItemController extends Controller
     
     public function show($toko)
     {
-        return response()->json(Item::where('id_store',[$toko]));
+        $item = Item::where('id_store',[$toko])->get();
+        return response()->json($item);
     }
     
     public function destroy($id)
