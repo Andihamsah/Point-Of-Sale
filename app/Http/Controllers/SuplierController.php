@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Store;
+use App\Suplier;
 
-class StoreController extends Controller
+class SuplierController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class StoreController extends Controller
      */
     public function index()
     {
-        return response()->json([Store::all()]);
+        return response()->json([Suplier::all()]);
     }
 
     /**
@@ -35,16 +35,18 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        $store = new Store;
-        $store->name = $request->name;
-        $store->status = $request->status;
-        
-        if ($store->save()) {
+        $user = Suplier::create([
+            'name' => $request->name,
+            'alamat' => $request->alamat,
+            'no_phone' => $request->telp
+        ]);
+
+        if ($user->save()) {
             return response()->json(['msg' => "succes"]);
         }
         return response()->json(['msg' => "failed"]);
     }
-
+    
     /**
      * Display the specified resource.
      *
@@ -53,9 +55,10 @@ class StoreController extends Controller
      */
     public function show($id)
     {
-        return response()->json([Store::find($id)->get()]);
+        return response()->json([Suplier::find($id)->get()]);
+         
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
@@ -66,7 +69,7 @@ class StoreController extends Controller
     {
         //
     }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -76,16 +79,18 @@ class StoreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $store = Store::find($id);
-        $store->name = $request->name;
-        $store->status = $request->status;
-
-        if ($store->update()) {
+        $user = Suplier::find($id);
+        $user->name = $request->nama;
+        $user->alamat = $request->alamat;
+        $user->no_phone = $request->telp;
+        
+        if ($user->update()) {
             return response()->json(['msg' => "succes"]);
         }
         return response()->json(['msg' => "failed"]);
+        
     }
-
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -94,11 +99,12 @@ class StoreController extends Controller
      */
     public function destroy($id)
     {
-        $store = Store::find($id);
+        $user = Suplier::find($id);
         
-        if ($store->delete()) {
+        if ($user->delete()) {
             return response()->json(['msg' => "succes"]);
         }
         return response()->json(['msg' => "failed"]);
+
     }
 }

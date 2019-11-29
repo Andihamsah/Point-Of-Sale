@@ -53,4 +53,7 @@ Route::group(['prefix' => 'manager','middleware' => ['cekrole:1']], function(){
     // Route::put('kategori/update/{id}', 'KategoriController@update');
     // Route::get('kategori/show', 'KategoriController@index');
     // Route::delete('kategori/delete/{id}', 'KategoriController@destroy');
+
+    // Suplier
+    Route::resource('suplier', 'SuplierController');
 });
