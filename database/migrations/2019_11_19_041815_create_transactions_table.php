@@ -15,10 +15,10 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('id_member')->unsigned();
+            $table->bigInteger('id_member')->nullable()->unsigned();
             $table->bigInteger('id_item')->unsigned();
             $table->bigInteger('id_store')->unsigned();
-            $table->integer('no_transaksi');
+            $table->string('no_transaksi');
             $table->integer('jumlah');
             $table->timestamps();
         });

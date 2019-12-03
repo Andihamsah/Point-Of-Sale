@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Item;
-use App\Category;
+
 
 class ItemController extends Controller
 {
@@ -18,7 +18,7 @@ class ItemController extends Controller
         $item->id_store = $request->store;
         $item->buy_cost = $request->harga_beli;
         $item->sell_cost = $request->harga_jual;
-        $item->id_kategory = $request->kategory_id;
+        $item->id_kategory = $request->kategori_id;
 
         if ($item->save()) {
             return response()->json(['massage' => "succes"]);            
@@ -35,7 +35,7 @@ class ItemController extends Controller
         $item->id_store = $request->store;
         $item->buy_cost = $request->harga_beli;
         $item->sell_cost = $request->harga_jual;
-        $item->id_kategory = $request->kategory_id;
+        $item->id_kategory = $request->kategori_id;
         
         if ($item->update()) {
             return response()->json(['massage' => "succes"]);            
@@ -45,7 +45,7 @@ class ItemController extends Controller
     
     public function show($toko)
     {
-        $item = Item::where('id_store',[$toko])->get();
+        $item = Item::where('id_store',$toko)->join('categories', 'items.id_kategory', '=', 'categories.id')->get();
         return response()->json($item);
     }
     

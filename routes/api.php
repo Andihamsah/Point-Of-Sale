@@ -29,6 +29,9 @@ Route::group(['prefix' => 'kasir','middleware' => ['cekrole:1']], function(){
     Route::put('privasi', 'UserController@updateprivasi');
     Route::get('show/{store}', 'UserController@index');
     Route::delete('delete/{id}', 'UserController@deletekasir');
+
+    // transaksi
+    Route::resource('transaksi', 'TransactionController');
 });
 
 Route::group(['prefix' => 'manager','middleware' => ['cekrole:1']], function(){

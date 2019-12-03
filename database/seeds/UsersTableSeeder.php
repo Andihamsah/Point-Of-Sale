@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder
             'email' => "admin@gmail.com",
             'password' => bcrypt("admin"),
             'role' => '0'
-        ],
+        ]
         // [
         //     'id_store' => '1',
         //     'username' => 'owner',

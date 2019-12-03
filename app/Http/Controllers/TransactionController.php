@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Category;
+use App\Transaction;
+use App\Store;
+use App\Item;
+use App\Member;
 
-class KategoriController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +17,7 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        return response()->json([Category::all()]);
+        return response()->json([Transaction::all()]);
     }
 
     /**
@@ -35,14 +38,25 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        $kategori = Category::create([
-            'name' => $request->kategori,
-        ]);
+        $item = Item::find($request->id_item)->first();
+        $no_trx  =  'TRX-'.date('dmys');
+        $transaksi = new Transaction;
+        $transaksi->id_item = $item->id;
+        $transaksi->id_member = $request->no_member;
+        $transaksi->id_store = $request->store;
+        $transaksi->no_transaksi = $no_trx;
+        $transaksi->jumlah = $request->total_barang * $item->stock;
+        // dd($transaksi);
+        $transaksi->save();
 
-        if ($kategori->save()) {
-            return response()->json(['msg'=>"succes"]);
+        $barang = Item::find($request->id_item);
+        $barang->stock =  $item->stock -= $request->total_barang;
+
+        if ($barang->save()) {
+            return response()->json(['msg' => "succes"]);
         }
-        return response()->json(['msg'=>"failed"]);
+        return response()->json(['msg' => "failed"]);       
+
     }
 
     /**
@@ -51,9 +65,10 @@ class KategoriController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($transaksi)
     {
-        //
+        // dd($transaksi);
+        return response()->json(Transaction::where('no_transaksi', $transaksi)->get());
     }
 
     /**
@@ -76,12 +91,7 @@ class KategoriController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $kategori = Category::find($id);
-        $kategori->name = $request->kategori;
-        if ($kategori->update()) {
-            return response()->json(['msg' => "succes"]);
-        }
-        return response()->json(['msg' => "failed"]);
+        //
     }
 
     /**
@@ -92,10 +102,6 @@ class KategoriController extends Controller
      */
     public function destroy($id)
     {
-        $kategori = Category::find($id);
-        if ($kategori->delete()) {
-            return response()->json(['msg' => "succes"]);
-        }
-        return response()->json(['msg' => "failed"]);
+        //
     }
 }
