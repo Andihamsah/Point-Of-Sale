@@ -14,7 +14,7 @@ class CreateStoresTable extends Migration
     public function up()
     {
         Schema::create('stores', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->bigIncrements('id_stores');
             $table->string('name');
             $table->enum('status', ['0', '1'])->default(1);
             $table->timestamps();
