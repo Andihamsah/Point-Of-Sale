@@ -17,7 +17,9 @@ class CreateMembersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('phone');
+            $table->integer('id_store');
             $table->string('email');
+            $table->string('no_member')->unique();
             $table->timestamps();
         });
     }

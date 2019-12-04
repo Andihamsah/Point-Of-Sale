@@ -32,6 +32,10 @@ Route::group(['prefix' => 'kasir','middleware' => ['cekrole:1']], function(){
 
     // transaksi
     Route::resource('transaksi', 'TransactionController');
+    
+    // members
+    Route::resource('member', 'MemberController');
+
 });
 
 Route::group(['prefix' => 'manager','middleware' => ['cekrole:1']], function(){
