@@ -12,6 +12,7 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         App\Category::create([
+            'id_categories' => "1",
             'name'=>"elektronik"
         ]);
     }
