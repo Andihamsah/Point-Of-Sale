@@ -45,7 +45,7 @@ class ItemController extends Controller
     
     public function show($toko)
     {
-        $item = Item::where('id_store',$toko)->join('categories', 'items.id_kategory', '=', 'categories.id')->get();
+        $item = Item::where('id_store',$toko)->join('categories', 'items.id_kategory', '=', 'categories.id')->get('name');
         return response()->json($item);
     }
     
