@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Suplier extends Model
+class Supplier extends Model
 {
     protected $fillable = ([
-        "supliers", "alamat", "no_phone"
+        "name", "alamat", "no_phone"
     ]);
 }

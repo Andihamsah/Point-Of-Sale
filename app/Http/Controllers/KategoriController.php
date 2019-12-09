@@ -14,7 +14,11 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        return response()->json([Category::all()]);
+        $kategori = Category::all();
+        if (count($kategori) == null) {
+            return response()->json(['msg' => "tidak ada kategori"]);
+        }
+        return response()->json($kategori);
     }
 
     /**

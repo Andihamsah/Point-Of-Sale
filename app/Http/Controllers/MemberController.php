@@ -41,13 +41,13 @@ class MemberController extends Controller
         $member->email = $request->email;
         $member->no_member = "MBR-" . mt_rand(10000, 99999);
         $member->id_store = $request->store;
-
+        
         if ($member->save()) {
             return response()->json(['msg' => "succes"]);
         }
         return response()->json(['msg' => "failed"]);
     }
-
+    
     /**
      * Display the specified resource.
      *
@@ -59,7 +59,7 @@ class MemberController extends Controller
         $member = Member::where('no_member', [$id])->first();
         return response()->json([$member]);
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
@@ -70,7 +70,7 @@ class MemberController extends Controller
     {
         //
     }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -80,9 +80,18 @@ class MemberController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+        $member = Member::find($id);
+        $member->name = $request->name;
+        $member->phone = $request->phone;
+        $member->email = $request->email;
+        $member->id_store = $request->store;
 
+        if ($member->save()) {
+            return response()->json(['msg' => "succes"]);
+        }
+        return response()->json(['msg' => "failed"]);
+    }
+    
     /**
      * Remove the specified resource from storage.
      *
@@ -91,6 +100,11 @@ class MemberController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $member = Member::find($id);
+
+        if ($member->delete()) {
+            return response()->json(['msg' => "succes"]);
+        }
+        return response()->json(['msg' => "failed"]);
     }
 }

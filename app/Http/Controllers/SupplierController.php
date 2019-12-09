@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Suplier;
+use App\Supplier;
 
-class SuplierController extends Controller
+class SupplierController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class SuplierController extends Controller
      */
     public function index()
     {
-        return response()->json([Suplier::all()]);
+        //
     }
 
     /**
@@ -24,7 +24,7 @@ class SuplierController extends Controller
      */
     public function create()
     {
-        //
+        return response()->json([Supplier::all()->get()]);
     }
 
     /**
@@ -35,18 +35,17 @@ class SuplierController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Suplier::create([
-            'name' => $request->name,
-            'alamat' => $request->alamat,
-            'no_phone' => $request->telp
-        ]);
-
-        if ($user->save()) {
+        $supplier = new Supplier;
+        $supplier->name = $request->name;
+        $supplier->alamat = $request->alamat;
+        $supplier->no_phone = $request->telp;
+        
+        if ($supplier->save()) {
             return response()->json(['msg' => "succes"]);
         }
         return response()->json(['msg' => "failed"]);
     }
-    
+
     /**
      * Display the specified resource.
      *
@@ -55,10 +54,9 @@ class SuplierController extends Controller
      */
     public function show($id)
     {
-        return response()->json([Suplier::find($id)->get()]);
-         
+        return response()->json([Supplier::find($id)->get()]);
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -67,7 +65,7 @@ class SuplierController extends Controller
      */
     public function edit($id)
     {
-        //
+        // 
     }
     
     /**
@@ -79,18 +77,17 @@ class SuplierController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = Suplier::find($id);
-        $user->name = $request->nama;
-        $user->alamat = $request->alamat;
-        $user->no_phone = $request->telp;
-        
-        if ($user->update()) {
+        $supplier = Supplier::find($id);
+        $supplier->name = $request->name;
+        $supplier->alamat = $request->alamat;
+        $supplier->no_phone = $request->telp;
+    
+        if ($supplier->update()) {
             return response()->json(['msg' => "succes"]);
         }
         return response()->json(['msg' => "failed"]);
-        
     }
-    
+
     /**
      * Remove the specified resource from storage.
      *
@@ -99,12 +96,11 @@ class SuplierController extends Controller
      */
     public function destroy($id)
     {
-        $user = Suplier::find($id);
+        $supplier = Supplier::find($id);
         
-        if ($user->delete()) {
+        if ($supplier->delete()) {
             return response()->json(['msg' => "succes"]);
         }
         return response()->json(['msg' => "failed"]);
-
     }
 }

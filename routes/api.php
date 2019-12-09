@@ -62,5 +62,5 @@ Route::group(['prefix' => 'manager','middleware' => ['cekrole:1']], function(){
     // Route::delete('kategori/delete/{id}', 'KategoriController@destroy');
 
     // Suplier
-    Route::resource('suplier', 'SuplierController');
+    Route::resource('suplier', 'SupplierController');
 });
